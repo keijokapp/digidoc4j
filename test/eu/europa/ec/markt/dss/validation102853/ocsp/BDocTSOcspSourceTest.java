@@ -17,13 +17,14 @@ import static org.junit.Assert.assertTrue;
 import org.bouncycastle.asn1.ocsp.OCSPObjectIdentifiers;
 import org.bouncycastle.asn1.x509.Extension;
 import org.digidoc4j.Configuration;
+import org.digidoc4j.DefaultConfiguration;
 import org.junit.Test;
 
 public class BDocTSOcspSourceTest {
 
   @Test
   public void gettingOcspNonce() throws Exception {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     BDocTSOcspSource ocspSource = new BDocTSOcspSource(configuration);
     Extension nonce = ocspSource.createNonce();
     assertFalse(nonce.isCritical());

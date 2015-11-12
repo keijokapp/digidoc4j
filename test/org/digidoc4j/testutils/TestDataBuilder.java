@@ -21,6 +21,7 @@ import org.apache.commons.io.FileUtils;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.ContainerBuilder;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.DigestAlgorithm;
 import org.digidoc4j.Signature;
 import org.digidoc4j.DataToSign;
@@ -95,7 +96,7 @@ public class TestDataBuilder {
   private static Container populateContainerBuilderWithFile(ContainerBuilder builder, TemporaryFolder testFolder) throws IOException {
     File testFile = createTestFile(testFolder);
     Container container = builder.
-        withConfiguration(new Configuration(Configuration.Mode.TEST)).
+        withConfiguration(new DefaultConfiguration(DefaultConfiguration.Mode.TEST)).
         withDataFile(testFile.getPath(), "text/plain")
         .build();
     return container;

@@ -25,6 +25,7 @@ import org.apache.commons.io.IOUtils;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.DataFile;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.DigestAlgorithm;
 import org.digidoc4j.Signature;
 import org.digidoc4j.SignatureParameters;
@@ -148,7 +149,7 @@ public class DDocFacade implements SignatureFinalizer, Serializable {
 
   private void intConfiguration() {
     logger.debug("");
-    configuration = new Configuration();
+    configuration = new DefaultConfiguration();
     initConfigManager(configuration);
   }
 

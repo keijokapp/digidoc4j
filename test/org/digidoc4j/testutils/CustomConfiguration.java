@@ -10,15 +10,15 @@
 
 package org.digidoc4j.testutils;
 
-import org.digidoc4j.Configuration;
+import org.digidoc4j.DefaultConfiguration;
 
-public class CustomConfiguration extends Configuration {
-	
+public class CustomConfiguration extends DefaultConfiguration {
+
 	public CustomConfiguration() {
 		super();
 	}
 
-	public CustomConfiguration(Configuration.Mode mode) {
+	public CustomConfiguration(DefaultConfiguration.Mode mode) {
 		super(mode);
 	}
 

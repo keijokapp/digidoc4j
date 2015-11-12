@@ -21,6 +21,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.ContainerBuilder;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.DigestAlgorithm;
 import org.digidoc4j.Signature;
 import org.digidoc4j.SignatureBuilder;
@@ -43,7 +44,7 @@ public final class ExternalSigning {
    */
   public static void main(String[] args) throws Exception {
     System.setProperty("digidoc4j.mode", "TEST");
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     Container container = ContainerBuilder.
         aContainer().
         withConfiguration(configuration).

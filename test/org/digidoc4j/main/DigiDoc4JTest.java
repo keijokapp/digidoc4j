@@ -33,7 +33,7 @@ import java.nio.file.Paths;
 import java.security.Permission;
 
 import static org.apache.commons.io.FileUtils.copyFile;
-import static org.digidoc4j.Configuration.Mode;
+import static org.digidoc4j.DefaultConfiguration.Mode;
 
 import org.digidoc4j.SignatureProfile;
 

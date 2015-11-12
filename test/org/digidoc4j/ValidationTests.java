@@ -59,7 +59,7 @@ public class ValidationTests extends DigiDoc4JTestHelper {
   @Test
   public void bdocTM_signedWithValidCert_isExpiredByNow_shouldBeValid() throws Exception {
     String containerPath = "testFiles/valid_bdoc_tm_signed_with_valid_cert_expired_by_now.bdoc";
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     TSLHelper.addCertificateFromFileToTsl(configuration, "testFiles/certs/ESTEID-SK_2007_prod.pem.crt");
     Container container = ContainerBuilder.
         aContainer("BDOC").

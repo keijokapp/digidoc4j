@@ -19,6 +19,7 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.ContainerBuilder;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.DigestAlgorithm;
 import org.digidoc4j.EncryptionAlgorithm;
 import org.digidoc4j.SignatureParameters;
@@ -83,7 +84,7 @@ public class DigiDoc4JOcspProblemLearningTest {
     }
 
     protected Configuration createDigiDoc4JConfiguration() {
-        Configuration result = new ConfigurationWithIpBasedAccess();
+        DefaultConfiguration result = new ConfigurationWithIpBasedAccess();
         result.setOcspSource(Configuration.TEST_OCSP_URL);
         result.setTSL(new Certificates().getTslCertificateSource());
         return result;
@@ -124,7 +125,7 @@ public class DigiDoc4JOcspProblemLearningTest {
         return parsePrivateKey(new StringReader(privateKey));
     }
 
-    private static class ConfigurationWithIpBasedAccess extends Configuration {
+    private static class ConfigurationWithIpBasedAccess extends DefaultConfiguration {
         public ConfigurationWithIpBasedAccess() {
             super(Mode.PROD);
 

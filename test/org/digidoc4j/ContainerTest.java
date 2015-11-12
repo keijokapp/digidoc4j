@@ -34,7 +34,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.apache.commons.codec.binary.Base64.encodeBase64String;
 import static org.custommonkey.xmlunit.XMLAssert.assertXMLEqual;
-import static org.digidoc4j.Configuration.Mode.TEST;
+import static org.digidoc4j.DefaultConfiguration.Mode.TEST;
 import static org.digidoc4j.Container.DocumentType.DDOC;
 import static org.digidoc4j.ContainerBuilder.BDOC_CONTAINER_TYPE;
 import static org.digidoc4j.ContainerBuilder.DDOC_CONTAINER_TYPE;
@@ -460,7 +460,7 @@ public class ContainerTest extends DigiDoc4JTestHelper {
   public void throwsErrorWhenCreatesDDOCContainerWithConfiguration() throws Exception {
     Container container = ContainerBuilder.
         aContainer(DDOC_CONTAINER_TYPE).
-        withConfiguration(new Configuration()).
+        withConfiguration(new DefaultConfiguration()).
         build();
 
     assertEquals("DDOC", container.getType());
@@ -572,7 +572,7 @@ public class ContainerTest extends DigiDoc4JTestHelper {
 
   @Test(expected = StringIndexOutOfBoundsException.class)
   public void testSetConfigurationForBDoc() throws Exception {
-    Configuration conf = new Configuration(TEST);
+    DefaultConfiguration conf = new DefaultConfiguration(TEST);
     conf.setTslLocation("pole");
     Container container = ContainerBuilder.
         aContainer(BDOC_CONTAINER_TYPE).
@@ -601,7 +601,7 @@ public class ContainerTest extends DigiDoc4JTestHelper {
   public void constructorWithConfigurationParameter() throws Exception {
     Container container = ContainerBuilder.
         aContainer().
-        withConfiguration(new Configuration()).
+        withConfiguration(new DefaultConfiguration()).
         build();
     assertEquals("BDOC", container.getType());
   }

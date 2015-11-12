@@ -509,7 +509,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @Test
   public void testLargeFileSigning() throws Exception {
     AsicFacade container = new AsicFacade();
-    container.configuration.enableBigFilesSupport(10);
+    ((DefaultConfiguration)container.configuration).enableBigFilesSupport(10);
     String path = createLargeFile((container.configuration.getMaxDataFileCachedInBytes()) + 100);
     container.addDataFile(path, "text/plain");
     container.sign(PKCS12_SIGNER);
@@ -519,7 +519,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   public void openLargeFileFromStream() throws FileNotFoundException {
 
     AsicFacade container = new AsicFacade();
-    container.configuration.enableBigFilesSupport(0);
+    ((DefaultConfiguration)container.configuration).enableBigFilesSupport(0);
 
     String path = createLargeFile((container.configuration.getMaxDataFileCachedInBytes()) + 100);
     container.addDataFile(path, "text/plain");
@@ -537,7 +537,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @Test
   public void openAddFileFromStream() throws IOException {
     AsicFacade container = new AsicFacade();
-    container.configuration.enableBigFilesSupport(0);
+    ((DefaultConfiguration)container.configuration).enableBigFilesSupport(0);
 
     String path = createLargeFile((container.configuration.getMaxDataFileCachedInBytes()) + 100);
     try (FileInputStream stream = new FileInputStream(new File(path))) {
@@ -666,7 +666,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
     container.sign(PKCS12_SIGNER);
     container.save("test_immutable.bdoc");
 
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     String tspSource = configuration.getTspSource();
 
     container = new AsicFacade("test_immutable.bdoc", configuration);
@@ -678,7 +678,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @Test
   //@Ignore("RIA VPN")
   public void TSLIsLoadedAfterSettingNewTSLLocation() {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     configuration.setTslLocation("file:test-tsl/trusted-test-mp.xml");
     AsicFacade container = new AsicFacade(configuration);
     container.configuration.getTSL();
@@ -691,7 +691,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
 
   @Test (expected = DigiDoc4JException.class)
   public void TSLFileNotFoundThrowsException() {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     configuration.setTslLocation("file:test-tsl/NotExisting.xml");
     AsicFacade container = new AsicFacade(configuration);
     container.configuration.getTSL();
@@ -699,7 +699,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
 
   @Test (expected = DigiDoc4JException.class)
   public void TSLConnectionFailureThrowsException() {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     configuration.setTslLocation("http://127.0.0.1/tsl/incorrect.xml");
     AsicFacade container = new AsicFacade(configuration);
     container.configuration.getTSL();
@@ -1394,7 +1394,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void secondSignatureFileContainsIncorrectFileName() throws IOException, CertificateException {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     TSLHelper.addSkTsaCertificateToTsl(configuration);
     Container container = ContainerOpener.open("testFiles/filename_mismatch_second_signature.asice", configuration);
     ValidationResult validate = container.validate();
@@ -1410,7 +1410,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void manifestFileContainsIncorrectFileName() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
     Container container = ContainerOpener.open("testFiles/filename_mismatch_manifest.asice", configuration);
     ValidationResult validate = container.validate();
@@ -1425,7 +1425,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @Test
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   public void revocationAndTimeStampDifferenceTooLarge() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
     Container container = ContainerOpener.open("testFiles/revocation_timestamp_delta_26h.asice", configuration);
     ValidationResult validate = container.validate();
@@ -1436,7 +1436,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
 
   @Test
   public void revocationAndTimeStampDifferenceNotTooLarge() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint_SigningTimeCreationTimeDeltaIs27H.xml");
     Container container = ContainerOpener.open("testFiles/revocation_timestamp_delta_26h.asice", configuration);
     ValidationResult validate = container.validate();
@@ -1445,7 +1445,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
 
   @Test
   public void signatureFileAndManifestFileContainDifferentMimeTypeForFile() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
     Container container = ContainerOpener.open("testFiles/mimetype_mismatch.asice", configuration);
     ValidationResult validate = container.validate();
@@ -1490,7 +1490,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
 
   @Test
   public void containerHasFileWhichIsNotInManifestAndNotInSignatureFile() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
     Container container = ContainerOpener.open("testFiles/extra_file_in_container.asice", configuration);
     ValidationResult result = container.validate();
@@ -1530,7 +1530,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void invalidNoncePolicyOid() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/23608_bdoc21-invalid-nonce-policy-oid.bdoc", configuration);
@@ -1543,7 +1543,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void noNoncePolicy() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/23608_bdoc21-no-nonce-policy.bdoc", configuration);
@@ -1556,7 +1556,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void badNonceContent() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/bdoc21-bad-nonce-content.bdoc", configuration);
@@ -1569,7 +1569,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void noSignedPropRefTM() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/REF-03_bdoc21-TM-no-signedpropref.bdoc", configuration);
@@ -1584,7 +1584,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void noSignedPropRefTS() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/REF-03_bdoc21-TS-no-signedpropref.asice", configuration);
@@ -1609,7 +1609,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void incorrectSignedPropertiesReference() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/signed_properties_reference_not_found.asice", configuration);
@@ -1622,7 +1622,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void nonceIncorrectContent() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/nonce-vale-sisu.bdoc", configuration);
@@ -1636,7 +1636,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void badNoncePolicyOidQualifier() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/SP-03_bdoc21-bad-nonce-policy-oidasuri.bdoc", configuration);
@@ -1660,7 +1660,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
   @Test
   public void noPolicyURI() {
-    Configuration configuration = new Configuration(Configuration.Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.PROD);
     configuration.setValidationPolicy("conf/test_constraint.xml");
 
     Container container = ContainerOpener.open("testFiles/SP-06_bdoc21-no-uri.bdoc", configuration);
@@ -1779,7 +1779,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   public void whenOpeningContainer_withTwoDataFilesWithSameName_andWithSingleReferenceInManifest_shouldThrowException() {
     Container container = ContainerBuilder.aContainer()
         .fromExistingFile("testFiles/KS-19_IB-3721_bdoc21-TM-2fil-samename-1sig3.bdoc")
-        .withConfiguration(new Configuration(Configuration.Mode.TEST))
+        .withConfiguration(new DefaultConfiguration(DefaultConfiguration.Mode.TEST))
         .build();
   }
 

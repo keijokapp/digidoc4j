@@ -47,6 +47,7 @@ import org.apache.commons.io.IOUtils;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.DataFile;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.DigestAlgorithm;
 import org.digidoc4j.EncryptionAlgorithm;
 import org.digidoc4j.Signature;
@@ -117,7 +118,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
    */
   public AsicFacade() {
     logger.debug("");
-    this.configuration = new Configuration();
+    this.configuration = new DefaultConfiguration();
     initASiC();
 
     logger.info("New BDoc container created");
@@ -227,7 +228,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
    * @param path container file name with path
    */
   public AsicFacade(String path) {
-    this(path, new Configuration());
+    this(path, new DefaultConfiguration());
   }
 
   /**
@@ -238,7 +239,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
    * @see org.digidoc4j.Configuration#isBigFilesSupportEnabled() returns true
    */
   public AsicFacade(InputStream stream, boolean actAsBigFilesSupportEnabled) {
-    this(stream, actAsBigFilesSupportEnabled, new Configuration());
+    this(stream, actAsBigFilesSupportEnabled, new DefaultConfiguration());
   }
 
   public AsicFacade(InputStream stream, boolean actAsBigFilesSupportEnabled, Configuration configuration) {

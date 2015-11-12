@@ -39,17 +39,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import static org.digidoc4j.Configuration.*;
-import static org.digidoc4j.Configuration.Mode.PROD;
-import static org.digidoc4j.Configuration.Mode.TEST;
+import static org.digidoc4j.DefaultConfiguration.*;
+import static org.digidoc4j.DefaultConfiguration.Mode.PROD;
+import static org.digidoc4j.DefaultConfiguration.Mode.TEST;
 import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.*;
 
-public class ConfigurationTest {
+public class DefaultConfigurationTest {
   private static final String SIGN_OCSP_REQUESTS = "SIGN_OCSP_REQUESTS";
   private static final String OCSP_PKCS12_CONTAINER = "DIGIDOC_PKCS12_CONTAINER";
   private static final String OCSP_PKCS_12_PASSWD = "DIGIDOC_PKCS12_PASSWD";
-  private Configuration configuration;
+  private DefaultConfiguration configuration;
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
@@ -60,12 +60,12 @@ public class ConfigurationTest {
   @Before
   public void setUp() {
     System.clearProperty("digidoc4j.mode");
-    configuration = new Configuration(TEST);
+    configuration = new DefaultConfiguration(TEST);
   }
 
   @Test
   public void getTSLLocationWhenNotFileURL() {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     String tslLocation = "URL:test";
     configuration.setTslLocation(tslLocation);
 
@@ -112,7 +112,7 @@ public class ConfigurationTest {
   @SuppressWarnings("ConstantConditions")
   @Test
   public void clearTSLCache() throws IOException, CertificateException {
-    Configuration myConfiguration = new Configuration(PROD);
+    Configuration myConfiguration = new DefaultConfiguration(PROD);
     if(TSLCertificateSource.fileCacheDirectory.exists()) {
       FileUtils.cleanDirectory(TSLCertificateSource.fileCacheDirectory);
     }
@@ -132,7 +132,7 @@ public class ConfigurationTest {
 
   @Test
   public void lotlValidationFailsWithWrongCertsInKeystore() {
-    Configuration myConfiguration = new Configuration(PROD);
+    DefaultConfiguration myConfiguration = new DefaultConfiguration(PROD);
     myConfiguration.setTslKeyStoreLocation("keystore/test-keystore.jks");
     try {
       myConfiguration.getTSL();
@@ -143,7 +143,7 @@ public class ConfigurationTest {
 
   @Test
   public void tslValidationSucceeds() {
-    Configuration myConfiguration = new Configuration(PROD);
+    Configuration myConfiguration = new DefaultConfiguration(PROD);
     Map<String, String> diagnosticInfo = myConfiguration.getTSL().getDiagnosticInfo();
     Set<Entry<String, String>> entries = diagnosticInfo.entrySet();
     for (Entry<String, String> entrie : entries) {
@@ -159,7 +159,7 @@ public class ConfigurationTest {
 
   @Test (expected = DigiDoc4JException.class)
   public void clearTSLCacheThrowsException() {
-    Configuration myConfiguration = new Configuration();
+    DefaultConfiguration myConfiguration = new DefaultConfiguration();
     myConfiguration.setTslLocation("http://10.0.25.57/tsl/trusted-test-mp.xml");
     TSLCertificateSource tslCertificateSource = myConfiguration.getTSL();
 
@@ -199,7 +199,7 @@ public class ConfigurationTest {
 
   @Test
   public void whenTSLLocationIsMalformedURLNoErrorIsRaisedAndThisSameValueIsReturned() throws Exception {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     String tslLocation = "file://C:\\";
     configuration.setTslLocation(tslLocation);
 
@@ -208,7 +208,7 @@ public class ConfigurationTest {
 
   @Test
   public void getTSLLocationWhenFileDoesNotExistInDefaultLocation() {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     String tslFilePath = ("conf/tsl-location-test.xml");
     configuration.setTslLocation("file:" + tslFilePath);
 
@@ -217,7 +217,7 @@ public class ConfigurationTest {
 
   @Test
   public void getTSLLocationFileDoesNotExistReturnsUrlPath() {
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     String tslLocation = ("file:conf/does-not-exist.xml");
     configuration.setTslLocation(tslLocation);
 
@@ -314,21 +314,21 @@ public class ConfigurationTest {
 
   @Test
   public void signingOcspRequest_ShouldBeEnabled_InProdByDefault() throws Exception {
-    Configuration configuration = new Configuration(Mode.PROD);
+    Configuration configuration = new DefaultConfiguration(Mode.PROD);
     assertTrue(configuration.hasToBeOCSPRequestSigned());
     assertEquals("true", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
   }
 
   @Test
   public void signingOcspRequest_ShouldBeDisabled_InTestByDefault() throws Exception {
-    Configuration configuration = new Configuration(Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(Mode.TEST);
     assertFalse(configuration.hasToBeOCSPRequestSigned());
     assertEquals("false", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
   }
 
   @Test
   public void disableSigningOcspRequestsInProd() throws Exception {
-    Configuration configuration = new Configuration(Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(Mode.PROD);
     configuration.setSignOCSPRequests(false);
     assertFalse(configuration.hasToBeOCSPRequestSigned());
     assertEquals("false", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
@@ -336,7 +336,7 @@ public class ConfigurationTest {
 
   @Test
   public void enableSigningOcspRequestsInTest() throws Exception {
-    Configuration configuration = new Configuration(Mode.TEST);
+    DefaultConfiguration configuration = new DefaultConfiguration(Mode.TEST);
     configuration.setSignOCSPRequests(true);
     assertTrue(configuration.hasToBeOCSPRequestSigned());
     assertEquals("true", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
@@ -344,7 +344,7 @@ public class ConfigurationTest {
 
   @Test
   public void loadDisableSigningOcspRequestFromConfFileInProd() throws Exception {
-    Configuration configuration = new Configuration(Mode.PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(Mode.PROD);
     configuration.loadConfiguration("testFiles/digidoc_test_all_optional_settings.yaml");
     assertFalse(configuration.hasToBeOCSPRequestSigned());
     assertEquals("false", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
@@ -353,7 +353,7 @@ public class ConfigurationTest {
   @Test
   public void loadDisableSigningOcspRequestFromConfFile() throws Exception {
     File confFile = createConfFileWithParameter("SIGN_OCSP_REQUESTS: false");
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     configuration.loadConfiguration(confFile.getPath());
     assertFalse(configuration.hasToBeOCSPRequestSigned());
     assertEquals("false", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
@@ -362,7 +362,7 @@ public class ConfigurationTest {
   @Test
   public void loadEnableSigningOcspRequestFromConfFile() throws Exception {
     File confFile = createConfFileWithParameter("SIGN_OCSP_REQUESTS: true");
-    Configuration configuration = new Configuration();
+    DefaultConfiguration configuration = new DefaultConfiguration();
     configuration.loadConfiguration(confFile.getPath());
     assertTrue(configuration.hasToBeOCSPRequestSigned());
     assertEquals("true", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
@@ -375,7 +375,7 @@ public class ConfigurationTest {
 
   @Test
   public void defaultProductionConfiguration() throws Exception {
-    Configuration configuration = new Configuration(PROD);
+    Configuration configuration = new DefaultConfiguration(PROD);
     assertEquals("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml",
         configuration.getTslLocation());
   }
@@ -383,13 +383,13 @@ public class ConfigurationTest {
   @Test
   public void defaultConstructorWithSetSystemProperty() throws Exception {
     System.setProperty("digidoc4j.mode", "TEST");
-    Configuration configuration = new Configuration();
+    Configuration configuration = new DefaultConfiguration();
     assertEquals("file:test-tsl/trusted-test-mp.xml", configuration.getTslLocation());
   }
 
   @Test
   public void setMaxDataFileCached() throws Exception {
-    configuration = new Configuration();
+    configuration = new DefaultConfiguration();
     long maxDataFileCached = 12345;
     configuration.enableBigFilesSupport(maxDataFileCached);
     assertEquals(maxDataFileCached, configuration.getMaxDataFileCachedInMB());
@@ -398,7 +398,7 @@ public class ConfigurationTest {
 
   @Test
   public void setMaxDataFileCachedToNoCaching() {
-    configuration = new Configuration();
+    configuration = new DefaultConfiguration();
     long maxDataFileCached = CACHE_NO_DATA_FILES;
     configuration.enableBigFilesSupport(maxDataFileCached);
     assertEquals(CACHE_NO_DATA_FILES, configuration.getMaxDataFileCachedInMB());
@@ -407,7 +407,7 @@ public class ConfigurationTest {
 
   @Test
   public void setMaxDataFileCachedToAllCaching() {
-    configuration = new Configuration();
+    configuration = new DefaultConfiguration();
     long maxDataFileCached = CACHE_ALL_DATA_FILES;
     configuration.enableBigFilesSupport(maxDataFileCached);
     assertEquals(CACHE_ALL_DATA_FILES, configuration.getMaxDataFileCachedInMB());
@@ -416,7 +416,7 @@ public class ConfigurationTest {
 
   @Test
   public void maxDataFileCachedNotAllowedValue() {
-    configuration = new Configuration();
+    configuration = new DefaultConfiguration();
     long oldValue = 4096;
     configuration.enableBigFilesSupport(oldValue);
     configuration.enableBigFilesSupport(-2);
@@ -425,7 +425,7 @@ public class ConfigurationTest {
 
   @Test
   public void maxDataFileCachedNotAllowedValueFromFile() {
-    configuration = new Configuration();
+    configuration = new DefaultConfiguration();
     String fileName = "testFiles/digidoc_test_conf_max_datafile_cached_invalid.yaml";
 
     expectedException.expect(ConfigurationException.class);
@@ -437,7 +437,7 @@ public class ConfigurationTest {
 
   @Test
   public void defaultConstructorWithUnSetSystemProperty() throws Exception {
-    Configuration configuration = new Configuration();
+    Configuration configuration = new DefaultConfiguration();
     assertEquals("https://ec.europa.eu/information_society/policy/esignature/trusted-list/tl-mp.xml",
         configuration.getTslLocation());
   }
@@ -727,26 +727,26 @@ public class ConfigurationTest {
 
   @Test (expected = TslKeyStoreNotFoundException.class)
   public void exceptionIsThrownWhenTslKeystoreIsNotFound() throws IOException {
-    Configuration conf = new Configuration(PROD);
+    DefaultConfiguration conf = new DefaultConfiguration(PROD);
     conf.setTslKeyStoreLocation("not/existing/path");
     conf.getTSL();
   }
 
   @Test
   public void testDefaultTslKeystoreLocation() throws Exception {
-    Configuration conf = new Configuration(PROD);
+    Configuration conf = new DefaultConfiguration(PROD);
     assertEquals("keystore/keystore.jks", conf.getTslKeyStoreLocation());
   }
 
   @Test
   public void testDefaultTestTslKeystoreLocation() throws Exception {
-    Configuration conf = new Configuration(TEST);
+    Configuration conf = new DefaultConfiguration(TEST);
     assertEquals("keystore/test-keystore.jks", conf.getTslKeyStoreLocation());
   }
 
   @Test
   public void testDefaultTslKeystorePassword() throws Exception {
-    Configuration conf = new Configuration(PROD);
+    Configuration conf = new DefaultConfiguration(PROD);
     assertEquals("digidoc4j-password", conf.getTslKeyStorePassword());
   }
 
@@ -794,13 +794,13 @@ public class ConfigurationTest {
 
   @Test
   public void isTestMode() throws Exception {
-    Configuration configuration = new Configuration(TEST);
+    DefaultConfiguration configuration = new DefaultConfiguration(TEST);
     assertTrue(configuration.isTest());
   }
 
   @Test
   public void isNotTestMode() throws Exception {
-    Configuration configuration = new Configuration(PROD);
+    DefaultConfiguration configuration = new DefaultConfiguration(PROD);
     assertFalse(configuration.isTest());
   }
 
@@ -907,7 +907,7 @@ public class ConfigurationTest {
 //
 //  @Test
 //  public void readConfigurationFromPropertiesFileThrowsException() throws Exception {
-//    Configuration configuration = spy(new Configuration(Mode.TEST));
+//    Configuration configuration = spy(new DefaultConfiguration(Mode.TEST));
 //    doThrow(new CertificateException()).when(configuration).getX509CertificateFromFile(anyString());
 //    doCallRealMethod().when(configuration).loadConfiguration(anyString());
 //

@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.digidoc4j.Configuration;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.exceptions.DigiDoc4JException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class DDocOpener implements Serializable {
   private String temporaryDirectoryPath;
 
   public DDocContainer open(String path) {
-    return open(path, new Configuration());
+    return open(path, new DefaultConfiguration());
   }
 
   public DDocContainer open(String fileName, Configuration configuration) {

@@ -32,7 +32,7 @@ public class HowTo {
   }
 
   private static void test() {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     Container container = ContainerBuilder.
         aContainer().
         withConfiguration(configuration).

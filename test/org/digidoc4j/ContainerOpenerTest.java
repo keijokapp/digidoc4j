@@ -24,7 +24,7 @@ public class ContainerOpenerTest extends DigiDoc4JTestHelper {
 
   private static final String BDOC_TEST_FILE = "testFiles/asics_for_testing.bdoc";
   private static final String DDOC_TEST_FILE = "testFiles/ddoc_for_testing.ddoc";
-  Configuration configuration = new Configuration(Configuration.Mode.TEST);
+  Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
 
   @Test
   public void openBDocContainer() throws Exception {

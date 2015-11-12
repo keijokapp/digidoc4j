@@ -41,7 +41,7 @@ import org.junit.rules.TemporaryFolder;
 
 public class ContainerBuilderTest extends DigiDoc4JTestHelper {
 
-  public static final Configuration TEST_CONFIGURATION = new Configuration(Configuration.Mode.TEST);
+  public static final Configuration TEST_CONFIGURATION = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
   private static final String BDOC_TEST_FILE = "testFiles/asics_for_testing.bdoc";
   private static final String DDOC_TEST_FILE = "testFiles/ddoc_for_testing.ddoc";
   private File tempFolder;
@@ -80,7 +80,7 @@ public class ContainerBuilderTest extends DigiDoc4JTestHelper {
 
   @Test
   public void buildBDocContainer() throws Exception {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     configuration.setTspSource("test-value");
     Container container = ContainerBuilder.
         aContainer(BDOC_CONTAINER_TYPE).
@@ -296,7 +296,7 @@ public class ContainerBuilderTest extends DigiDoc4JTestHelper {
 
   @Test
   public void openDefaultContainerFromFileWithConfiguration() throws Exception {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     configuration.setTspSource("test-value");
     Container container = ContainerBuilder.
         aContainer().
@@ -353,7 +353,7 @@ public class ContainerBuilderTest extends DigiDoc4JTestHelper {
 
   @Test
   public void openCustomContainerFromFile_withCustomConfiguration() throws Exception {
-    CustomConfiguration configuration = new CustomConfiguration(Configuration.Mode.TEST);
+    CustomConfiguration configuration = new CustomConfiguration(DefaultConfiguration.Mode.TEST);
     File testFile = createTestFile("testFile.txt");
     ContainerBuilder.setContainerImplementation("TEST-FORMAT", TestContainer.class);
     Container container = ContainerBuilder.
@@ -378,7 +378,7 @@ public class ContainerBuilderTest extends DigiDoc4JTestHelper {
 
   @Test
   public void openBDocContainerFromStream_withConfiguration() throws Exception {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    DefaultConfiguration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     configuration.setTspSource("test-value");
     InputStream stream = FileUtils.openInputStream(new File(BDOC_TEST_FILE));
     Container container = ContainerBuilder.

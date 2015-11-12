@@ -11,6 +11,7 @@ import java.util.List;
 import javax.security.auth.x500.X500Principal;
 
 import org.digidoc4j.Configuration;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.utils.CertificatesForTests;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,7 +38,7 @@ public class SKOnlineOCSPSourceTest {
   @Mock
   DataLoader dataLoader;
 
-  Configuration configuration = new Configuration(Configuration.Mode.TEST);
+  Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
 
   @Test
   public void gettingOCSPToken_shouldReturnNull_whenOCSPResponseIsEmpty() throws Exception {

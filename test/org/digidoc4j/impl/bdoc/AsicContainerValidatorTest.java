@@ -16,6 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.digidoc4j.Configuration;
+import org.digidoc4j.DefaultConfiguration;
 import org.digidoc4j.exceptions.ContainerWithoutSignaturesException;
 import org.digidoc4j.exceptions.InvalidTimestampException;
 import org.digidoc4j.testutils.TestDataBuilder;
@@ -68,7 +69,7 @@ public class AsicContainerValidatorTest {
   }
 
   private AsicContainerValidator createAsicContainerValidator(String containerPath) {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     return createAsicContainerValidator(containerPath, configuration);
   }
 

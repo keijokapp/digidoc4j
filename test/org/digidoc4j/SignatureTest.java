@@ -197,7 +197,7 @@ public class SignatureTest extends DigiDoc4JTestHelper {
 
   @Test
   public void testValidationForBDocDefaultValidation() throws Exception {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    Configuration configuration = new DefaultConfiguration(DefaultConfiguration.Mode.TEST);
     TSLHelper.addSkTsaCertificateToTsl(configuration);
     Container container = ContainerOpener.open("testFiles/two_signatures.bdoc", configuration);
     Signature signature = container.getSignatures().get(0);
@@ -368,7 +368,7 @@ public class SignatureTest extends DigiDoc4JTestHelper {
   private Signature getSignature(Container.DocumentType documentType) {
     Container container = ContainerBuilder.
         aContainer(documentType.name()).
-        withConfiguration(new Configuration(Configuration.Mode.TEST)).
+        withConfiguration(new DefaultConfiguration(DefaultConfiguration.Mode.TEST)).
         withDataFile("testFiles/test.txt", "text/plain").
         build();
 
