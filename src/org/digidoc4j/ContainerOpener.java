@@ -131,7 +131,6 @@ public class ContainerOpener {
   }
 
   private static Container openBDocContainer(String path, Configuration configuration) {
-    configuration.loadConfiguration("digidoc4j.yaml");
     AsicFacade facade = new AsicFacade(path, configuration);
     return new BDocContainer(facade);
   }
