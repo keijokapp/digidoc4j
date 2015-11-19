@@ -646,15 +646,6 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   }
 
   @Test
-  public void testLoadConfiguration() throws Exception {
-    AsicFacade container = new AsicFacade();
-    assertFalse(container.configuration.isBigFilesSupportEnabled());
-    container.loadConfiguration("testFiles/digidoc_test_conf.yaml");
-    assertTrue(container.configuration.isBigFilesSupportEnabled());
-    assertEquals(8192, container.configuration.getMaxDataFileCachedInMB());
-  }
-
-  @Test
   public void saveToStream() throws Exception {
     AsicFacade container = new AsicFacade();
     container.addDataFile(new ByteArrayInputStream(new byte[]{0x42}), "test_bytes.txt", "text/plain");

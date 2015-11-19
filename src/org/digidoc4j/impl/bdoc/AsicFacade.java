@@ -350,16 +350,6 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
     }
   }
 
-  /**
-   * Load configuration settings
-   *
-   * @param fileName file containing configuration settings
-   */
-  public void loadConfiguration(String fileName) {
-    logger.debug("");
-    configuration.loadConfiguration(fileName);
-  }
-
   public DataFile addDataFile(String path, String mimeType) {
     logger.info("Adding data file: " + path + ", mime type: " + mimeType);
 
