@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.exceptions.DigiDoc4JException;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class DDocOpener implements Serializable {
     return open(path, new Configuration());
   }
 
-  public DDocContainer open(String fileName, Configuration configuration) {
+  public DDocContainer open(String fileName, AbstractConfiguration configuration) {
     logger.info("Opening DDoc container from file: " + fileName);
     DDocFacade facade = new DDocFacade(configuration);
     ArrayList<DigiDocException> containerOpeningExceptions = new ArrayList<>();
@@ -52,7 +53,7 @@ public class DDocOpener implements Serializable {
     return createContainer(facade, signedDoc);
   }
 
-  public DDocContainer open(InputStream stream, Configuration configuration) {
+  public DDocContainer open(InputStream stream, AbstractConfiguration configuration) {
     logger.info("Opening DDoc from stream");
     DDocFacade facade = new DDocFacade(configuration);
     SignedDoc signedDoc = openSignedDoc(stream);

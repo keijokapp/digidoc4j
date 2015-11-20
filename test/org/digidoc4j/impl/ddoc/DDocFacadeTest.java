@@ -47,7 +47,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.digidoc4j.Configuration;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Container;
 import org.digidoc4j.ContainerBuilder;
 import org.digidoc4j.ContainerOpener;
@@ -599,7 +599,7 @@ public class DDocFacadeTest {
     }
 
     @Override
-    void initializeJDigidocConfigManager(Configuration configuration) {
+    void initializeJDigidocConfigManager(AbstractConfiguration configuration) {
       super.initializeJDigidocConfigManager(configuration);
       configManagerCallCount++;
     }

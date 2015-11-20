@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.bouncycastle.asn1.ocsp.OCSPObjectIdentifiers;
 import org.bouncycastle.asn1.x509.Extension;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.junit.Test;
 
@@ -23,7 +24,7 @@ public class BDocTSOcspSourceTest {
 
   @Test
   public void gettingOcspNonce() throws Exception {
-    Configuration configuration = new Configuration(Configuration.Mode.TEST);
+    AbstractConfiguration configuration = new Configuration(Configuration.Mode.TEST);
     BDocTSOcspSource ocspSource = new BDocTSOcspSource(configuration);
     Extension nonce = ocspSource.createNonce();
     assertFalse(nonce.isCritical());

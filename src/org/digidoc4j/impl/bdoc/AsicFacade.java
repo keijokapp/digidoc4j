@@ -39,6 +39,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.io.IOUtils;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.DataFile;
@@ -105,7 +106,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
   private SignatureParameters signatureParameters = new SignatureParameters();
   private DSSDocument signedDocument;
   private List<Signature> signatures = new ArrayList<>();
-  protected Configuration configuration = null;
+  protected AbstractConfiguration configuration = null;
   private static final MimeType BDOC_MIME_TYPE = MimeType.ASICE;
   private transient Reports validationReport;
   private boolean isTimeMark = false;
@@ -142,7 +143,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
    *
    * @param configuration sets container configuration
    */
-  public AsicFacade(Configuration configuration) {
+  public AsicFacade(AbstractConfiguration configuration) {
     logger.debug("");
     configuration.getTSL();
     this.configuration = configuration.copy();
@@ -260,7 +261,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
    * @param path          container file name with path
    * @param configuration configuration settings
    */
-  public AsicFacade(String path, Configuration configuration) {
+  public AsicFacade(String path, AbstractConfiguration configuration) {
     logger.info("Opening BDoc container from file: " + path);
     configuration.getTSL();
     this.configuration = configuration.copy();
@@ -691,7 +692,7 @@ public class AsicFacade implements SignatureFinalizer, Serializable {
     return attachment;
   }
 
-  public Configuration getConfiguration() {
+  public AbstractConfiguration getConfiguration() {
     return configuration;
   }
 

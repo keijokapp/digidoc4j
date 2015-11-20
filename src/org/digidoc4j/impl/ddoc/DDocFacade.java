@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.DataFile;
@@ -63,7 +64,7 @@ public class DDocFacade implements SignatureFinalizer, Serializable {
   private SignatureProfile signatureProfile = SignatureProfile.LT_TM;
   private SignatureParameters signatureParameters = new SignatureParameters();
   protected ee.sk.digidoc.Signature ddocSignature;
-  private Configuration configuration;
+  private AbstractConfiguration configuration;
   static ConfigManagerInitializer configManagerInitializer = new ConfigManagerInitializer();
 
   public DDocFacade() {
@@ -72,7 +73,7 @@ public class DDocFacade implements SignatureFinalizer, Serializable {
     createDDOCContainer();
   }
 
-  public DDocFacade(Configuration configuration) {
+  public DDocFacade(AbstractConfiguration configuration) {
     logger.debug("");
     this.configuration = configuration;
     initConfigManager(configuration);
@@ -470,7 +471,7 @@ public class DDocFacade implements SignatureFinalizer, Serializable {
     return format;
   }
 
-  public Configuration getConfiguration() {
+  public AbstractConfiguration getConfiguration() {
     return configuration;
   }
 
@@ -479,7 +480,7 @@ public class DDocFacade implements SignatureFinalizer, Serializable {
     return signRaw(signatureValue);
   }
 
-  private void initConfigManager(Configuration configuration) {
+  private void initConfigManager(AbstractConfiguration configuration) {
     configManagerInitializer.initConfigManager(configuration);
   }
 

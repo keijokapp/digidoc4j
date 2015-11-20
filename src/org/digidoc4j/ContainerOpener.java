@@ -130,7 +130,7 @@ public class ContainerOpener {
     }
   }
 
-  private static Container openBDocContainer(String path, Configuration configuration) {
+  private static Container openBDocContainer(String path, AbstractConfiguration configuration) {
     AsicFacade facade = new AsicFacade(path, configuration);
     return new BDocContainer(facade);
   }

@@ -13,6 +13,7 @@ package org.digidoc4j.impl;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.Container;
 import org.digidoc4j.ContainerBuilder;
@@ -60,33 +61,33 @@ public class CustomContainerBuilder extends ContainerBuilder {
   private Container instantiateContainer() {
     return instantiateContainer((Class<?>[])null, (Object[])null);
   }
-  
-  private Container instantiateContainer(Configuration configuration) {
-    Class<?>[] parameterTypes = new Class[] { Configuration.class };
+
+  private Container instantiateContainer(AbstractConfiguration configuration) {
+    Class<?>[] parameterTypes = new Class[] { AbstractConfiguration.class };
     Object[] constructorArguments = new Object[] { configuration };
     return instantiateContainer(parameterTypes, constructorArguments);
   }
-  
+
   private Container instantiateContainer(String containerFilePath) {
     Class<?>[] parameterTypes = new Class[] { String.class };
     Object[] constructorArguments = new Object[] { containerFilePath };
     return instantiateContainer(parameterTypes, constructorArguments);
   }
-  
-  private Container instantiateContainer(String containerFilePath, Configuration configuration) {
-    Class<?>[] parameterTypes = new Class[] { String.class, Configuration.class };
+
+  private Container instantiateContainer(String containerFilePath, AbstractConfiguration configuration) {
+    Class<?>[] parameterTypes = new Class[] { String.class, AbstractConfiguration.class };
     Object[] constructorArguments = new Object[] { containerFilePath, configuration };
     return instantiateContainer(parameterTypes, constructorArguments);
   }
-  
+
   private Container instantiateContainer(InputStream containerInputStream) {
     Class<?>[] parameterTypes = new Class[] { InputStream.class };
     Object[] constructorArguments = new Object[] { containerInputStream };
     return instantiateContainer(parameterTypes, constructorArguments);
   }
-  
-  private Container instantiateContainer(InputStream containerInputStream, Configuration configuration) {
-    Class<?>[] parameterTypes = new Class[] { InputStream.class, Configuration.class };
+
+  private Container instantiateContainer(InputStream containerInputStream, AbstractConfiguration configuration) {
+    Class<?>[] parameterTypes = new Class[] { InputStream.class, AbstractConfiguration.class };
     Object[] constructorArguments = new Object[] { containerInputStream, configuration };
     return instantiateContainer(parameterTypes, constructorArguments);
   }

@@ -29,7 +29,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileTime;
-import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Hashtable;
@@ -113,7 +112,7 @@ public class ConfigurationTest {
   @SuppressWarnings("ConstantConditions")
   @Test
   public void clearTSLCache() throws IOException, CertificateException {
-    Configuration myConfiguration = new Configuration(PROD);
+    AbstractConfiguration myConfiguration = new Configuration(PROD);
     if(TSLCertificateSource.fileCacheDirectory.exists()) {
       FileUtils.cleanDirectory(TSLCertificateSource.fileCacheDirectory);
     }
@@ -145,7 +144,7 @@ public class ConfigurationTest {
   @Test
   @Ignore
   public void tslValidationSucceeds() {
-    /*Configuration myConfiguration = new Configuration(PROD);
+    /*AbstractConfiguration myConfiguration = new Configuration(PROD);
     Map<String, String> diagnosticInfo = myConfiguration.getTSL().getDiagnosticInfo();
     Set<Entry<String, String>> entries = diagnosticInfo.entrySet();
     for (Entry<String, String> entrie : entries) {
@@ -316,14 +315,14 @@ public class ConfigurationTest {
 
   @Test
   public void signingOcspRequest_ShouldBeEnabled_InProdByDefault() throws Exception {
-    Configuration configuration = new Configuration(Mode.PROD);
+    AbstractConfiguration configuration = new Configuration(Mode.PROD);
     assertTrue(configuration.hasToBeOCSPRequestSigned());
     assertEquals("true", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
   }
 
   @Test
   public void signingOcspRequest_ShouldBeDisabled_InTestByDefault() throws Exception {
-    Configuration configuration = new Configuration(Mode.TEST);
+    AbstractConfiguration configuration = new Configuration(Mode.TEST);
     assertFalse(configuration.hasToBeOCSPRequestSigned());
     assertEquals("false", getJDigiDocConfValue(configuration, SIGN_OCSP_REQUESTS));
   }
@@ -736,19 +735,19 @@ public class ConfigurationTest {
 
   @Test
   public void testDefaultTslKeystoreLocation() throws Exception {
-    Configuration conf = new Configuration(PROD);
+    AbstractConfiguration conf = new Configuration(PROD);
     assertEquals("keystore/keystore.jks", conf.getTslKeyStoreLocation());
   }
 
   @Test
   public void testDefaultTestTslKeystoreLocation() throws Exception {
-    Configuration conf = new Configuration(TEST);
+    AbstractConfiguration conf = new Configuration(TEST);
     assertEquals("keystore/test-keystore.jks", conf.getTslKeyStoreLocation());
   }
 
   @Test
   public void testDefaultTslKeystorePassword() throws Exception {
-    Configuration conf = new Configuration(PROD);
+    AbstractConfiguration conf = new Configuration(PROD);
     assertEquals("digidoc4j-password", conf.getTslKeyStorePassword());
   }
 
@@ -914,7 +913,7 @@ public class ConfigurationTest {
     return confFile;
   }
 
-  private String getJDigiDocConfValue(Configuration configuration, String key) {
+  private String getJDigiDocConfValue(AbstractConfiguration configuration, String key) {
     return configuration.getJDigiDocConfiguration().get(key);
   }
 

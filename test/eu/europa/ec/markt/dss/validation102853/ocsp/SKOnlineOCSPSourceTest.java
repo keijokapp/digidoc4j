@@ -5,6 +5,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.utils.CertificatesForTests;
 import org.junit.Rule;
@@ -30,7 +31,7 @@ public class SKOnlineOCSPSourceTest {
 
   @Mock
   DataLoader dataLoader;
-  Configuration configuration = new Configuration(Configuration.Mode.TEST);
+  AbstractConfiguration configuration = new Configuration(Configuration.Mode.TEST);
 
   @Test
   public void gettingOCSPToken_shouldReturnNull_whenOCSPResponseIsEmpty() throws Exception {

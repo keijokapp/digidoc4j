@@ -520,7 +520,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @Test
   public void testLargeFileSigning() throws Exception {
     AsicFacade container = new AsicFacade();
-    container.configuration.enableBigFilesSupport(10);
+    ((Configuration)container.configuration).enableBigFilesSupport(10);
     String path = createLargeFile((container.configuration.getMaxDataFileCachedInBytes()) + 100);
     container.addDataFile(path, "text/plain");
     container.sign(PKCS12_SIGNER);
@@ -530,7 +530,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   public void openLargeFileFromStream() throws FileNotFoundException {
 
     AsicFacade container = new AsicFacade();
-    container.configuration.enableBigFilesSupport(0);
+    ((Configuration)container.configuration).enableBigFilesSupport(0);
 
     String path = createLargeFile((container.configuration.getMaxDataFileCachedInBytes()) + 100);
     container.addDataFile(path, "text/plain");
@@ -548,7 +548,7 @@ public class AsicFacadeTest extends DigiDoc4JTestHelper {
   @Test
   public void openAddFileFromStream() throws IOException {
     AsicFacade container = new AsicFacade();
-    container.configuration.enableBigFilesSupport(0);
+    ((Configuration)container.configuration).enableBigFilesSupport(0);
 
     String path = createLargeFile((container.configuration.getMaxDataFileCachedInBytes()) + 100);
     try (FileInputStream stream = new FileInputStream(new File(path))) {

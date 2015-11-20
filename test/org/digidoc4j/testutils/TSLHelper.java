@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.cert.X509Certificate;
 
-import org.digidoc4j.Configuration;
+import org.digidoc4j.AbstractConfiguration;
 
 import eu.europa.esig.dss.DSSException;
 import eu.europa.esig.dss.DSSUtils;
@@ -16,11 +16,11 @@ public class TSLHelper {
    * @param configuration the configuration to add the certificate.
    * @return the same configuration with certificate added to TSL
    */
-  public static Configuration addSkTsaCertificateToTsl(Configuration configuration) {
+  public static AbstractConfiguration addSkTsaCertificateToTsl(AbstractConfiguration configuration) {
     return addCertificateFromFileToTsl(configuration, "testFiles/SK_TSA.pem.crt");
   }
 
-  public static Configuration addCertificateFromFileToTsl(Configuration configuration, String fileName) {
+  public static AbstractConfiguration addCertificateFromFileToTsl(AbstractConfiguration configuration, String fileName) {
     try {
       FileInputStream fileInputStream = new FileInputStream(fileName);
       X509Certificate certificate = DSSUtils.loadCertificate(fileInputStream).getCertificate();

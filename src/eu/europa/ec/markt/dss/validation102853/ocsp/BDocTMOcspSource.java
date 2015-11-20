@@ -6,7 +6,7 @@ import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.DERSequence;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
-import org.digidoc4j.Configuration;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.exceptions.DigiDoc4JException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class BDocTMOcspSource extends SKOnlineOCSPSource {
   private static final Logger logger = LoggerFactory.getLogger(SKOnlineOCSPSource.class);
   private final byte[] signature;
 
-  public BDocTMOcspSource(Configuration configuration, byte[] signature) {
+  public BDocTMOcspSource(AbstractConfiguration configuration, byte[] signature) {
     super(configuration);
     this.signature = signature;
   }

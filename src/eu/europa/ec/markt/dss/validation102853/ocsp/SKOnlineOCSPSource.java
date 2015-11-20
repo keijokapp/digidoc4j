@@ -30,6 +30,7 @@ import org.bouncycastle.cert.ocsp.OCSPResp;
 import org.bouncycastle.cert.ocsp.SingleResp;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.exceptions.ConfigurationException;
 import org.digidoc4j.exceptions.DigiDoc4JException;
@@ -58,14 +59,14 @@ public abstract class SKOnlineOCSPSource implements OCSPSource {
    */
   private DataLoader dataLoader;
 
-  private Configuration configuration;
+  private AbstractConfiguration configuration;
 
   /**
    * SK Online OCSP Source constructor
    *
    * @param configuration configuration to use for this source
    */
-  public SKOnlineOCSPSource(Configuration configuration) {
+  public SKOnlineOCSPSource(AbstractConfiguration configuration) {
     this();
     this.configuration = configuration;
   }

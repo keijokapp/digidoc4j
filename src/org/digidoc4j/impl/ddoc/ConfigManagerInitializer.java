@@ -12,7 +12,7 @@ package org.digidoc4j.impl.ddoc;
 
 import java.io.Serializable;
 
-import org.digidoc4j.Configuration;
+import org.digidoc4j.AbstractConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class ConfigManagerInitializer implements Serializable{
   private static final Logger logger = LoggerFactory.getLogger(ConfigManagerInitializer.class);
   static boolean configManagerInitialized = false;
 
-  public void initConfigManager(Configuration configuration) {
+  public void initConfigManager(AbstractConfiguration configuration) {
     if(!configManagerInitialized) {
       initializeJDigidocConfigManager(configuration);
     } else {
@@ -31,7 +31,7 @@ public class ConfigManagerInitializer implements Serializable{
     }
   }
 
-  public static synchronized void forceInitConfigManager(Configuration configuration) {
+  public static synchronized void forceInitConfigManager(AbstractConfiguration configuration) {
     logger.info("Initializing DDoc configuration manager");
     ConfigManager.init(configuration.getJDigiDocConfiguration());
     ConfigManager.addProvider();
@@ -42,7 +42,7 @@ public class ConfigManagerInitializer implements Serializable{
     return configManagerInitialized;
   }
 
-  void initializeJDigidocConfigManager(Configuration configuration) {
+  void initializeJDigidocConfigManager(AbstractConfiguration configuration) {
     forceInitConfigManager(configuration);
   }
 }

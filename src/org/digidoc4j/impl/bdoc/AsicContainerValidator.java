@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.digidoc4j.Configuration;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Signature;
 import org.digidoc4j.exceptions.ContainerWithoutSignaturesException;
 import org.digidoc4j.exceptions.DigiDoc4JException;
@@ -46,13 +46,13 @@ public class AsicContainerValidator implements Serializable {
   private final static Logger logger = LoggerFactory.getLogger(AsicContainerValidator.class);
   private DSSDocument signedDocument;
   private CertificateVerifier certificateVerifier;
-  private Configuration configuration;
+  private AbstractConfiguration configuration;
   private DigestAlgorithm containerDigestAlgorithm;
   private List<Signature> signatures = new ArrayList<>();
   private Map<String, List<DigiDoc4JException>> signatureVerificationErrors = new LinkedHashMap<>();
   private transient Reports validationReport;
 
-  public AsicContainerValidator(DSSDocument asicContainer, CertificateVerifier certificateVerifier, Configuration configuration) {
+  public AsicContainerValidator(DSSDocument asicContainer, CertificateVerifier certificateVerifier, AbstractConfiguration configuration) {
     this.signedDocument = asicContainer;
     this.certificateVerifier = certificateVerifier;
     this.configuration = configuration;

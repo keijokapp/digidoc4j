@@ -10,6 +10,7 @@
 
 package prototype;
 
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Configuration;
 import org.digidoc4j.DigestAlgorithm;
 import org.digidoc4j.SignatureToken;
@@ -35,7 +36,7 @@ public class PKCS11Signer implements SignatureToken {
    * @param password password
    */
   public PKCS11Signer(char[] password) {
-    Configuration configuration = new Configuration();
+    AbstractConfiguration configuration = new Configuration();
     signatureTokenConnection = new Pkcs11SignatureToken(configuration.getPKCS11ModulePath(), password, 2);
     keyEntry = signatureTokenConnection.getKeys().get(0);
   }

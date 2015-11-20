@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * <p><code>
  *   {@link Container} container = {@link ContainerBuilder}. <br/>
  *   &nbsp;&nbsp; {@link ContainerBuilder#aContainer(String) aContainer("BDOC")}. <br/>
- *   &nbsp;&nbsp; {@link ContainerBuilder#withConfiguration(Configuration) withConfiguration(configuration)}.  // Configuration settings <br/>
+ *   &nbsp;&nbsp; {@link ContainerBuilder#withConfiguration(AbstractConfiguration) withConfiguration(configuration)}.  // Configuration settings <br/>
  *   &nbsp;&nbsp; {@link ContainerBuilder#withDataFile(String, String) withDataFile("testFiles/legal_contract_1.txt", "text/plain")}.  // Adding a document from a hard drive <br/>
  *   &nbsp;&nbsp; {@link ContainerBuilder#withDataFile(InputStream, String, String) withDataFile(inputStream, "legal_contract_2.txt", "text/plain")}.  // Adding a document from a stream <br/>
  *   &nbsp;&nbsp; {@link ContainerBuilder#build() build()}; <br/>

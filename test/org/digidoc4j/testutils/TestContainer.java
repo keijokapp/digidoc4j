@@ -16,7 +16,7 @@ import java.io.OutputStream;
 import java.security.cert.X509Certificate;
 import java.util.List;
 
-import org.digidoc4j.Configuration;
+import org.digidoc4j.AbstractConfiguration;
 import org.digidoc4j.Container;
 import org.digidoc4j.DataFile;
 import org.digidoc4j.DigestAlgorithm;
@@ -32,7 +32,7 @@ import org.digidoc4j.ValidationResult;
  */
 public class TestContainer implements Container {
 
-  Configuration configuration;
+  AbstractConfiguration configuration;
   String openedFromFile;
   InputStream openedFromStream;
   public static String type = "TEST-FORMAT";
@@ -40,7 +40,7 @@ public class TestContainer implements Container {
   public TestContainer() {
   }
 
-  public TestContainer(Configuration configuration) {
+  public TestContainer(AbstractConfiguration configuration) {
     this.configuration = configuration;
   }
 
@@ -48,7 +48,7 @@ public class TestContainer implements Container {
     this.openedFromFile = filePath;
   }
 
-  public TestContainer(String filePath, Configuration configuration) {
+  public TestContainer(String filePath, AbstractConfiguration configuration) {
     this.openedFromFile = filePath;
     this.configuration = configuration;
   }
@@ -57,7 +57,7 @@ public class TestContainer implements Container {
     this.openedFromStream = openedFromStream;
   }
 
-  public TestContainer(InputStream openedFromStream, Configuration configuration) {
+  public TestContainer(InputStream openedFromStream, AbstractConfiguration configuration) {
     this.openedFromStream = openedFromStream;
     this.configuration = configuration;
   }
@@ -71,7 +71,7 @@ public class TestContainer implements Container {
     type = "TEST-FORMAT";
   }
 
-  public Configuration getConfiguration() {
+  public AbstractConfiguration getConfiguration() {
     return configuration;
   }
 

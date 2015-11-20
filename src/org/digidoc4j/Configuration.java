@@ -117,8 +117,9 @@ import eu.europa.esig.dss.client.http.Protocol;
  * <li>TSL_KEYSTORE_PASSWORD: keystore password for the keystore in TSL_KEYSTORE_LOCATION</li>
  * </ul>
  */
-public class Configuration implements Serializable {
+public class Configuration extends AbstractConfiguration {
   private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
+
   private static final int ONE_SECOND = 1000;
   private static final int ONE_DAY_IN_MINUTES = 24 * 60;
   public static final long ONE_MB_IN_BYTES = 1048576;
@@ -137,11 +138,6 @@ public class Configuration implements Serializable {
   public static final String DEFAULT_MAX_DATAFILE_CACHED = "-1";
   public static final String DEFAULT_TSL_KEYSTORE_LOCATION = "keystore/keystore.jks";
 
-  public static final long CACHE_ALL_DATA_FILES = -1;
-  public static final long CACHE_NO_DATA_FILES = 0;
-
-  public static final String TEST_OCSP_URL = "http://demo.sk.ee/ocsp";
-  public static final String PROD_OCSP_URL = "http://ocsp.sk.ee/";
   private static final String SIGN_OCSP_REQUESTS = "SIGN_OCSP_REQUESTS";
   private static final String OCSP_PKCS_12_CONTAINER = "DIGIDOC_PKCS12_CONTAINER";
   private static final String OCSP_PKCS_12_PASSWD = "DIGIDOC_PKCS12_PASSWD";
@@ -194,21 +190,11 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * Are requirements met for signing OCSP certificate?
-   *
-   * @return value indicating if requirements are met
-   */
-  public boolean isOCSPSigningConfigurationAvailable() {
-    boolean available = isNotEmpty(getOCSPAccessCertificateFileName()) && getOCSPAccessCertificatePassword().length != 0;
-    logger.debug("Is OCSP signing configuration available: " + available);
-    return available;
-  }
-
-  /**
    * Get OCSP access certificate filename
    *
    * @return filename for the OCSP access certificate
    */
+  @Override
   public String getOCSPAccessCertificateFileName() {
     logger.debug("Loading OCSPAccessCertificateFile");
     String ocspAccessCertificateFile = getConfigurationParameter("OCSPAccessCertificateFile");
@@ -221,6 +207,7 @@ public class Configuration implements Serializable {
    *
    * @return password
    */
+  @Override
   public char[] getOCSPAccessCertificatePassword() {
     logger.debug("Loading OCSPAccessCertificatePassword");
     char[] result = {};
@@ -360,6 +347,7 @@ public class Configuration implements Serializable {
    *
    * @return configuration values
    */
+  @Override
   public Hashtable<String, String> getJDigiDocConfiguration() {
     return jDigiDocConfiguration;
   }
@@ -494,13 +482,6 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return is big file support enabled
-   */
-  public boolean isBigFilesSupportEnabled() {
-    return getMaxDataFileCachedInMB() >= 0;
-  }
-
-  /**
    * Returns configuration item must be OCSP request signed. Reads it from configuration parameter SIGN_OCSP_REQUESTS.
    * Default value is true for {@link Configuration.Mode#PROD} and false for {@link Configuration.Mode#TEST}
    *
@@ -516,26 +497,13 @@ public class Configuration implements Serializable {
    *
    * @return Size in MB. if size < 0 no caching is used
    */
+  @Override
   public long getMaxDataFileCachedInMB() {
     String maxDataFileCached = jDigiDocConfiguration.get("DIGIDOC_MAX_DATAFILE_CACHED");
     logger.debug("Maximum datafile cached in MB: " + maxDataFileCached);
 
     if (maxDataFileCached == null) return CACHE_ALL_DATA_FILES;
     return Long.parseLong(maxDataFileCached);
-  }
-
-  /**
-   * Get the maximum size of data files to be cached. Used by DigiDoc4J and by JDigiDoc.
-   *
-   * @return Size in MB. if size < 0 no caching is used
-   */
-  public long getMaxDataFileCachedInBytes() {
-    long maxDataFileCachedInMB = getMaxDataFileCachedInMB();
-    if (maxDataFileCachedInMB == CACHE_ALL_DATA_FILES) {
-      return CACHE_ALL_DATA_FILES;
-    } else {
-      return (maxDataFileCachedInMB * ONE_MB_IN_BYTES);
-    }
   }
 
   private String defaultIfNull(String configParameter, String defaultValue) {
@@ -711,6 +679,7 @@ public class Configuration implements Serializable {
    *
    * @return TSL source
    */
+  @Override
   public TSLCertificateSource getTSL() {
     if (tslCertificateSource != null) {
       logger.debug("Using TSL cached copy");
@@ -771,6 +740,7 @@ public class Configuration implements Serializable {
    *
    * @return TSP Source
    */
+  @Override
   public String getTspSource() {
     String tspSource = getConfigurationParameter("tspSource");
     logger.debug("TSP Source: " + tspSource);
@@ -791,6 +761,7 @@ public class Configuration implements Serializable {
    *
    * @return connection timeout in milliseconds
    */
+  @Override
   public int getConnectionTimeout() {
     return Integer.parseInt(getConfigurationParameter("connectionTimeout"));
   }
@@ -810,6 +781,7 @@ public class Configuration implements Serializable {
    *
    * @return OCSP Source
    */
+  @Override
   public String getOcspSource() {
     String ocspSource = getConfigurationParameter("ocspSource");
     logger.debug("OCSP source: " + ocspSource);
@@ -829,6 +801,7 @@ public class Configuration implements Serializable {
    * Get the Location to Keystore that holds potential TSL Signing certificates
    * @return KeyStore Location
    */
+  @Override
   public String getTslKeyStoreLocation() {
     String keystoreLocation = getConfigurationParameter("tslKeyStoreLocation");
     logger.debug("tsl KeyStore Location: " + keystoreLocation);
@@ -848,6 +821,7 @@ public class Configuration implements Serializable {
    * Get the password for Keystore that holds potential TSL Signing certificates
    * @return Tsl Keystore password
    */
+  @Override
   public String getTslKeyStorePassword() {
     String keystorePassword = getConfigurationParameter("tslKeyStorePassword");
     logger.debug("tsl KeyStore Password: " + keystorePassword);
@@ -869,6 +843,7 @@ public class Configuration implements Serializable {
    *
    * @return Validation policy
    */
+  @Override
   public String getValidationPolicy() {
     String validationPolicy = getConfigurationParameter("validationPolicy");
     logger.debug("Validation policy: " + validationPolicy);
@@ -890,6 +865,7 @@ public class Configuration implements Serializable {
    *
    * @return path
    */
+  @Override
   public String getPKCS11ModulePath() {
     String path = getConfigurationParameter("pkcs11Module");
     logger.debug("PKCS11 module path: " + path);
@@ -934,27 +910,7 @@ public class Configuration implements Serializable {
    * @return new configuration object
    */
   public Configuration copy() {
-    ObjectOutputStream oos = null;
-    ObjectInputStream ois = null;
-    Configuration copyConfiguration = null;
-    // deep copy
-    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    try {
-      oos = new ObjectOutputStream(bos);
-      oos.writeObject(this);
-      oos.flush();
-      ByteArrayInputStream bin =
-          new ByteArrayInputStream(bos.toByteArray());
-      ois = new ObjectInputStream(bin);
-      copyConfiguration = (Configuration) ois.readObject();
-    } catch (Exception e) {
-      throw new DigiDoc4JException(e);
-    } finally {
-      IOUtils.closeQuietly(oos);
-      IOUtils.closeQuietly(ois);
-      IOUtils.closeQuietly(bos);
-    }
-    return copyConfiguration;
+    return (Configuration) super.copy();
   }
 
   private void initOcspAccessCertPasswordForJDigidoc() {
